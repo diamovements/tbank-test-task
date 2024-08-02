@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
+
 @Service
 public class TranslationService {
 
@@ -40,7 +41,7 @@ public class TranslationService {
                         return future.get();
                     } catch (InterruptedException | ExecutionException e) {
                         logger.info("Exception: ", e);
-                        throw new RuntimeException(e);
+                        throw new RuntimeException("Error during translation: " + e.getMessage(), e);
                     }
                 })
                 .collect(Collectors.joining(" "));
@@ -48,6 +49,7 @@ public class TranslationService {
         String ipAddress = request.getRemoteAddr();
         logger.info("Saving request: {}, {}, {} ", ipAddress, text, translatedText);
         translationRepository.saveRequest(ipAddress, text, translatedText);
+
         executor.shutdown();
         return translatedText;
     }

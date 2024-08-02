@@ -15,15 +15,15 @@ public class TranslatorApplication {
 		SpringApplication.run(TranslatorApplication.class, args);
 	}
 
-	@Bean
-	public DataSource dataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.postgresql.Driver");
-		dataSource.setUrl("jdbc:postgresql://localhost:5432/translator");
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("111");
-		return dataSource;
-	}
+//	@Bean
+//	public DataSource dataSource() {
+//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//		dataSource.setDriverClassName("org.postgresql.Driver");
+//		dataSource.setUrl("jdbc:postgresql://service-db/translator");
+//		dataSource.setUsername("postgres");
+//		dataSource.setPassword("111");
+//		return dataSource;
+//	}
 
 	@Bean
 	public RestTemplate restTemplate() {

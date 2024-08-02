@@ -19,11 +19,11 @@ public class TranslationRepository {
 
     public void saveRequest(String ipAddress, String inputString, String translatedString) {
         if (ipAddress == null || inputString == null || translatedString == null) {
-            logger.info("Null parameters detected");
+            logger.debug("Null parameters detected");
             throw new IllegalArgumentException("None of the input parameters can be null");
         }
         if (ipAddress.length() > 45 || inputString.length() > 255 || translatedString.length() > 255) {
-            logger.info("Input values exceed max length");
+            logger.debug("Input values exceed max length");
             throw new IllegalArgumentException("Input values exceed maximum length");
         }
         String sql = "INSERT INTO t_users (ip_address, input_string, translated_string) VALUES (?, ?, ?)";
