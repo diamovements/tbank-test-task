@@ -1,9 +1,9 @@
 package com.example.translator.service;
 
 import com.example.translator.repository.TranslationRepository;
-import com.example.translator.connection.TranslateApi;
+import com.example.translator.connection.GoogleTranslateClient;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,15 +14,12 @@ import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
 public class TranslationService {
 
-    private final TranslateApi translator;
-    private final TranslationRepository translationRepository;
+    private final GoogleTranslateClient translator;
 
-    public TranslationService(TranslateApi translator, TranslationRepository translationRepository) {
-        this.translator = translator;
-        this.translationRepository = translationRepository;
-    }
+    private final TranslationRepository translationRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(TranslationService.class);
 
@@ -33,7 +30,6 @@ public class TranslationService {
                 .map(word -> executor.submit(() -> translator.translate(word, sourceLang, targetLang)))
                 .toList();
         logger.info("Translated {} words", futures.size());
-
         String translatedText = futures.stream()
                 .map(future -> {
                     try {
@@ -49,7 +45,6 @@ public class TranslationService {
         String ipAddress = request.getRemoteAddr();
         logger.info("Saving request: {}, {}, {} ", ipAddress, text, translatedText);
         translationRepository.saveRequest(ipAddress, text, translatedText);
-
         executor.shutdown();
         return translatedText;
     }

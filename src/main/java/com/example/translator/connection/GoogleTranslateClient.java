@@ -1,30 +1,30 @@
 package com.example.translator.connection;
 
-import com.example.translator.repository.TranslationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class TranslateApi {
+@RequiredArgsConstructor
+public class GoogleTranslateClient implements TranslateClient{
 
-    private static final Logger logger = LoggerFactory.getLogger(TranslateApi.class);
+    private static final Logger logger = LoggerFactory.getLogger(GoogleTranslateClient.class);
 
     private static final String EMPTY_STRING = "";
 
+    @Value("${spring.translate.url}")
+    private String googleTranslateUrl;
+
     private final RestTemplate restTemplate;
 
-    public TranslateApi(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
-
     public String translate(String text, String sourceLang, String targetLang) {
-        String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl={sourceLanguage}&tl={targetLanguage}&dt=t&q={word}";
-        var response = restTemplate.getForEntity(url, String.class, sourceLang, targetLang, text);
+        var response = restTemplate.getForEntity(googleTranslateUrl, String.class, sourceLang, targetLang, text);
         if (response.getBody() != null) {
             try {
                 var objectMapper = new ObjectMapper();

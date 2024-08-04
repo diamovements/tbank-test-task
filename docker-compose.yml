@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5432:5432"
 
   app:
     build: .
@@ -27,7 +27,7 @@ services:
   flyway:
     image: flyway/flyway:latest
     environment:
-      FLYWAY_URL: jdbc:postgresql://postgres:5433/translator
+      FLYWAY_URL: jdbc:postgresql://postgres:5432/translator
       FLYWAY_USER: postgres
       FLYWAY_PASSWORD: 111
     volumes:

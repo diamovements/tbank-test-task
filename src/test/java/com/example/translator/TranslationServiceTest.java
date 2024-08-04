@@ -1,19 +1,17 @@
 package com.example.translator;
 
 import com.example.translator.repository.TranslationRepository;
-import com.example.translator.connection.TranslateApi;
+import com.example.translator.connection.GoogleTranslateClient;
 import com.example.translator.service.TranslationService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -21,7 +19,7 @@ import static org.mockito.Mockito.*;
 class TranslationServiceTest {
 
     @Mock
-    private TranslateApi translator;
+    private GoogleTranslateClient translator;
 
     @Mock
     private TranslationRepository translationRepository;
@@ -38,7 +36,8 @@ class TranslationServiceTest {
     }
 
     @Test
-    void translateText_success() throws Exception {
+    @DisplayName("TranslationService success translation test")
+    void translateText_shouldReturnTranslatedText() {
         String text = "hello world";
         String sourceLang = "en";
         String targetLang = "es";
@@ -57,7 +56,8 @@ class TranslationServiceTest {
     }
 
     @Test
-    void translateText_withExecutionException() {
+    @DisplayName("TranslationService with exception test")
+    void translateText_shouldThrowExecutionException() {
         when(translator.translate(anyString(), anyString(), anyString()))
                 .thenAnswer(invocation -> {
                     throw new ExecutionException("Error during translation: ", new Throwable());
@@ -71,7 +71,8 @@ class TranslationServiceTest {
     }
 
     @Test
-    void translateText_withInterruptedException() {
+    @DisplayName("TranslationService with exception test")
+    void translateText_shouldThrowInterruptedException() {
         when(translator.translate(anyString(), anyString(), anyString()))
                 .thenAnswer(invocation -> {
                     throw new InterruptedException("Error during translation: ");

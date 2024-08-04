@@ -19,14 +19,10 @@ public class TranslatorApplication {
 //	public DataSource dataSource() {
 //		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 //		dataSource.setDriverClassName("org.postgresql.Driver");
-//		dataSource.setUrl("jdbc:postgresql://service-db/translator");
+//		//dataSource.setUrl("jdbc:postgresql://service-db/translator");
 //		dataSource.setUsername("postgres");
 //		dataSource.setPassword("111");
 //		return dataSource;
 //	}
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
 }

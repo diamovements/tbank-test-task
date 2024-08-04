@@ -4,6 +4,7 @@ import com.example.translator.dto.TranslationRequest;
 import com.example.translator.dto.TranslationResponse;
 import com.example.translator.service.TranslationService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +14,21 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/v1/translate")
+@RequiredArgsConstructor
 public class TranslationController {
     private static final Logger logger = LoggerFactory.getLogger(TranslationController.class);
 
     private static final Pattern LANGUAGE_CODE_PATTERN = Pattern.compile("^[a-zA-Z]{2}$");
 
-    @Autowired
     private final TranslationService translationService;
-
-    public TranslationController(TranslationService translationService) {
-        this.translationService = translationService;
-    }
 
     @PostMapping
     public TranslationResponse translate(@RequestBody TranslationRequest request, HttpServletRequest httpRequest) {
-        validateLanguageCode(request.getSourceLang());
-        validateLanguageCode(request.getTargetLang());
+        validateLanguageCode(request.sourceLang());
+        validateLanguageCode(request.targetLang());
 
-        String translatedText = translationService.translateText(request.getInputString(),
-                request.getSourceLang(), request.getTargetLang(), httpRequest);
+        String translatedText = translationService.translateText(request.inputString(),
+                request.sourceLang(), request.targetLang(), httpRequest);
         logger.info("Translated text: {} ", translatedText);
         return new TranslationResponse(translatedText);
     }
