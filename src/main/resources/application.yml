@@ -8,5 +8,6 @@ spring:
     url: jdbc:postgresql://postgres:5432/translator
     user: postgres
     password: 111
-  translate:
-    url: "https://translate.googleapis.com/translate_a/single?client=gtx&sl={sourceLanguage}&tl={targetLanguage}&dt=t&q={word}"
+  translator:
+    google:
+      url: "https://translate.googleapis.com/translate_a/single?client=gtx&sl={sourceLanguage}&tl={targetLanguage}&dt=t&q={word}"

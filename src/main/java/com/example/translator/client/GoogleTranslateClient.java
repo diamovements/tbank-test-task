@@ -1,24 +1,22 @@
-package com.example.translator.connection;
+package com.example.translator.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class GoogleTranslateClient implements TranslateClient{
-
-    private static final Logger logger = LoggerFactory.getLogger(GoogleTranslateClient.class);
 
     private static final String EMPTY_STRING = "";
 
-    @Value("${spring.translate.url}")
+    @Value("${spring.translator.google.url}")
     private String googleTranslateUrl;
 
     private final RestTemplate restTemplate;
@@ -30,7 +28,7 @@ public class GoogleTranslateClient implements TranslateClient{
                 var objectMapper = new ObjectMapper();
                 var jsonNode = objectMapper.readTree(response.getBody());
                 var arrayNode = (ArrayNode) jsonNode.get(0);
-                logger.info("Translated text: {} ", arrayNode.get(0).get(0).asText());
+                log.info("Translated text: {} ", arrayNode.get(0).get(0).asText());
                 return arrayNode.get(0).get(0).asText();
 
             } catch (JsonProcessingException exception) {

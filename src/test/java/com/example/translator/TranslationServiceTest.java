@@ -1,7 +1,7 @@
 package com.example.translator;
 
 import com.example.translator.repository.TranslationRepository;
-import com.example.translator.connection.GoogleTranslateClient;
+import com.example.translator.client.GoogleTranslateClient;
 import com.example.translator.service.TranslationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
