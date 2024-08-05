@@ -5,8 +5,8 @@
 
 ```
 {
-  "inputString" : "Hello"
-  "sourceLang" : "en"
+  "inputString" : "Hello",
+  "sourceLang" : "en",
   "targetLang" : "ru"
 }
 ```
