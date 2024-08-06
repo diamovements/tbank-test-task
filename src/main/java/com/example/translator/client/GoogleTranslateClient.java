@@ -22,6 +22,10 @@ public class GoogleTranslateClient implements TranslateClient{
     private final RestTemplate restTemplate;
 
     public String translate(String text, String sourceLang, String targetLang) {
+        if (text.isBlank()) {
+            log.warn("Empty or blank text");
+            return EMPTY_STRING;
+        }
         var response = restTemplate.getForEntity(googleTranslateUrl, String.class, sourceLang, targetLang, text);
         if (response.getBody() != null) {
             try {
