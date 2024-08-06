@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/api/v1/translate")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Slf4j
 public class TranslationController {
@@ -22,14 +22,37 @@ public class TranslationController {
 
     private final TranslationService translationService;
 
-    @PostMapping
+    @PostMapping("/translate")
     public TranslationResponse translate(@RequestBody TranslationRequest request, HttpServletRequest httpRequest) {
         validateLanguageCode(request.sourceLang());
         validateLanguageCode(request.targetLang());
 
-        String translatedText = translationService.translateText(request.inputString(),
-                request.sourceLang(), request.targetLang(), httpRequest);
+        String translatedText = translationService.translateText(
+                request.inputString(),
+                request.sourceLang(),
+                request.targetLang(),
+                httpRequest
+        );
         log.info("Translated text: {} ", translatedText);
+        return new TranslationResponse(translatedText);
+    }
+
+    @GetMapping("/translate")
+    public TranslationResponse translateWithParams(
+            @RequestParam String inputString,
+            @RequestParam String sourceLang,
+            @RequestParam String targetLang,
+            HttpServletRequest httpRequest) {
+        validateLanguageCode(sourceLang);
+        validateLanguageCode(targetLang);
+
+        String translatedText = translationService.translateText(
+                inputString,
+                sourceLang,
+                targetLang,
+                httpRequest
+        );
+        log.info("Translated text: {}", translatedText);
         return new TranslationResponse(translatedText);
     }
 

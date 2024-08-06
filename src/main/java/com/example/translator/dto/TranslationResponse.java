@@ -1,3 +1,3 @@
 package com.example.translator.dto;
-public record TranslationResponse(String tranlsatedString) {
+public record TranslationResponse(String translatedString) {
 }
