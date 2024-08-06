@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.example.translator")
 public class TranslatorApplication {
 
 	public static void main(String[] args) {

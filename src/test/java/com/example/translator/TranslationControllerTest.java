@@ -33,7 +33,10 @@ public class TranslationControllerTest {
     @DisplayName("TranslationController POST success translation test")
     public void translate_validRequest_shouldReturnTranslatedText() throws Exception {
         TranslationRequest request = new TranslationRequest("hello", "en", "ru");
-        Mockito.when(translationService.translateText(any(), any(), any(), any())).thenReturn("привет");
+
+        Mockito.when(translationService.translateText(any(), any(), any(),
+                any())).thenReturn("привет");
+
         mockMvc.perform(post("/api/v1/translate")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)))
@@ -47,7 +50,8 @@ public class TranslationControllerTest {
         String sourceLang = "en";
         String targetLang = "ru";
 
-        Mockito.when(translationService.translateText(any(), any(), any(), any())).thenReturn("привет");
+        Mockito.when(translationService.translateText(any(), any(), any(),
+                any())).thenReturn("привет");
 
         mockMvc.perform(get("/api/v1/translate")
                         .param("inputString", inputString)
