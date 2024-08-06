@@ -1,11 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgres:5432/translator
+    url: jdbc:postgresql://postgres/translator
     username: postgres
     password: 111
     driver-class-name: org.postgresql.Driver
   flyway:
-    url: jdbc:postgresql://postgres:5432/translator
+    url: jdbc:postgresql://postgres/translator
     user: postgres
     password: 111
   translator:
