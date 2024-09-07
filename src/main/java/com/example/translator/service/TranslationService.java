@@ -26,6 +26,10 @@ public class TranslationService {
     @Transactional
     public String translateText(String text, String sourceLang, String targetLang, HttpServletRequest request) {
         List<String> words = Arrays.asList(text.split(" "));
+        log.info("List: {} ", words.toString());
+        if (words.size() > 10) {
+            throw new RuntimeException("Too many words.....");
+        }
         ExecutorService executor = Executors.newFixedThreadPool(10);
         List<Future<String>> futures = words.stream()
                 .map(word -> executor.submit(() -> translator.translate(word, sourceLang, targetLang)))

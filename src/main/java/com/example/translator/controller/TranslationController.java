@@ -34,25 +34,6 @@ public class TranslationController {
         return new TranslationResponse(translatedText);
     }
 
-    @GetMapping("/translate")
-    public TranslationResponse translateWithParams(
-            @RequestParam String inputString,
-            @RequestParam String sourceLang,
-            @RequestParam String targetLang,
-            HttpServletRequest httpRequest) {
-        validateLanguageCode(sourceLang);
-        validateLanguageCode(targetLang);
-
-        String translatedText = translationService.translateText(
-                inputString,
-                sourceLang,
-                targetLang,
-                httpRequest
-        );
-        log.info("Translated text: {}", translatedText);
-        return new TranslationResponse(translatedText);
-    }
-
     private void validateLanguageCode(String langCode) {
         if (!SupportedLanguages.VALID_LANGUAGE_CODES.contains(langCode)) {
             log.debug("Invalid language: {}", langCode);

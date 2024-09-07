@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -23,8 +24,7 @@ public class GoogleTranslateClient implements TranslateClient{
 
     public String translate(String text, String sourceLang, String targetLang) {
         if (text.isBlank()) {
-            log.warn("Empty or blank text");
-            return EMPTY_STRING;
+            throw new RuntimeException("Blank text....");
         }
         var response = restTemplate.getForEntity(googleTranslateUrl, String.class, sourceLang, targetLang, text);
         if (response.getBody() != null) {
